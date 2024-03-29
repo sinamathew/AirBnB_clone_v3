@@ -75,14 +75,16 @@ class DBStorage:
         """ method to retrieve one object"""
         if cls is None or id is None:
             return None
-        obj = session.query(cls).filter_by(id=id).first()
-        return obj
+        obj = self.__session.query(cls).get(id)
+        return (obj)
 
     def count(self, cls=None):
         """A method to count the number of objects in storage"""
         if cls is None:
-            return session.query().count()
-        return session.query(cls).count()
+            count = len(self.all())
+        else:
+            count = len(self.all(cls))
+        return count
 
     def close(self):
         """call remove() method on the private session attribute"""
